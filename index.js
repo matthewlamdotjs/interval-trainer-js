@@ -86,11 +86,11 @@ startNewWorkout = () => {
     let currentExercise=0, currentIntervalNumber=1, currentSeconds=intervalLength, restCount=restTime;
 
     // begin workout
-    currentInterval = setInterval(async () => {
+    currentInterval = setInterval(() => {
         if(isPaused){
             _setActivity('PAUSED');
         }
-        else if(countdown > 0){
+        else if(countdown >= 0){
             _setActivity('GET READY!');
             _setTime(countdown);
             countdown--;
@@ -109,10 +109,10 @@ startNewWorkout = () => {
             _setTime(currentSeconds);
 
             // cycle intervals
-            if(currentSeconds <= 0) {
+            if(currentSeconds == 0) {
                 currentIntervalNumber++;
                 isResting = true;
-                currentSeconds = intervalLength;
+                currentSeconds = intervalLength+1;
             };
 
             // cycle exercises
@@ -122,7 +122,7 @@ startNewWorkout = () => {
             };
 
             // end workout
-            if(currentExercise >= numExercises) clearInterval(currentInterval);
+            if(currentExercise == numExercises) cancelWorkout();
 
             // cycle seconds
             currentSeconds--;
