@@ -42,7 +42,7 @@ startNewWorkout = () => {
     clearInterval(currentInterval);
     isPaused = false;
     isResting = false;
-    _setTime(countdownCount);
+    _setTime(countdown);
     _setIntervalNumber('N/A');
 
     // gather variables
