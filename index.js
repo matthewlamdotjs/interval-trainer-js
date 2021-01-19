@@ -81,7 +81,9 @@ startNewWorkout = () => {
         .replace(/\r\n/g, '\n')
         .replace(/\n\n+/g, '\n')
         .replace(/\r/g, '\n');
-    const exercises = workoutList.split('\n');
+    const exercises = workoutList
+        .split('\n')
+        .filter((exercise) => exercise.length > 0 && exercise.search(/[^\s\\]/) > -1);
     const numExercises = exercises.length;
     let currentExercise=0, currentIntervalNumber=1, currentSeconds=intervalLength, restCount=restTime;
 
