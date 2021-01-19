@@ -66,10 +66,6 @@ startNewWorkout = () => {
         alert('Rest time cannot be a negative number!');
         return 0;
     }
-
-    // indicate
-    _toggleAll();
-    _setActivity('Starting Workout...');
     
     // initialize data / make transformations
     intervalLength = parseInt(intervalLength);
@@ -85,10 +81,20 @@ startNewWorkout = () => {
         .split('\n')
         .filter((exercise) => exercise.length > 0 && exercise.search(/[^\s\\]/) > -1);
     const numExercises = exercises.length;
+    if(!numExercises){
+        alert('Please supply at least one exercise.');
+        return 0;
+    }
     let currentExercise=0, currentIntervalNumber=1, currentSeconds=intervalLength, restCount=restTime;
+
+    // indicate
+    _displayPlay(exercises);
+    _toggleAll();
+    _setActivity('Starting Workout...');
 
     // begin workout
     currentInterval = setInterval(() => {
+        _chooseWorkoutItem(currentExercise);
         if(isPaused){
             _setActivity('PAUSED');
         }
@@ -98,7 +104,7 @@ startNewWorkout = () => {
             countdown--;
         }
         else if(isResting){
-            _setActivity('REST');
+            _setActivity('REST<br>'+exercises[currentExercise]+'<br>(next)');
             _setTime(restCount);
             isResting = restCount <= 0 ? false : true;
             restCount = restCount <= 0 ? restTime : restCount;
@@ -153,13 +159,16 @@ cancelWorkout = () => {
     _setActivity('Workout Complete!');
     _setTime(0);
     _setIntervalNumber('N/A');
+    _displayEdit();
 }
 
 /**
  * helpers
  */
 const _setActivity = (activity) => {
-    document.getElementById('current-activity').innerHTML = activity;
+    const currentActivity = document.getElementById('current-activity');
+    currentActivity.innerHTML = '';
+    currentActivity.insertAdjacentHTML('beforeend', activity);
 }
 const _setTime = (seconds) => {
     if(seconds > 0 && seconds < 10) countdownBeep.play();
@@ -181,4 +190,23 @@ const _toggleAll = () => {
     _toggleDisabled(document.getElementById('start-button'));
     _toggleDisabled(document.getElementById('pause-button'));
     _toggleDisabled(document.getElementById('stop-button'));
+}
+const _displayEdit = () => {
+    document.getElementById('workout-list').style.display = 'block';
+    document.getElementById('workout-reference').innerHTML = '';
+    document.getElementById('workout-reference').style.display = 'none';
+}
+const _displayPlay = (exercises) => {
+    document.getElementById('workout-list').style.display = 'none';
+    const reference = document.getElementById('workout-reference')
+    reference.style.display = 'block';
+    Array.prototype.forEach.call(exercises, (exercise, index) => {
+        reference.insertAdjacentHTML('beforeend', `<li class="workout-item" id="workout-item-${index}">${exercise}</li>`);
+    });
+}
+const _chooseWorkoutItem = (index) =>{
+    Array.prototype.forEach.call(document.getElementsByClassName('workout-item'), (item) => {
+        item.classList.remove('current');
+    });
+    document.getElementById('workout-item-'+index).classList.add('current');
 }

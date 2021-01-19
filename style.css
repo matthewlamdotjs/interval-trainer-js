@@ -9,10 +9,10 @@
     vertical-align: top;
     padding: 20px;
 }
-#workout-form > table >  *{
+#workout-form > table >  * {
     vertical-align: top;
 }
-#workout-form > table > td > *{
+#workout-form > table > td > * {
     vertical-align: top;
 }
 #workout-form > table > tbody > tr > td {
@@ -21,9 +21,20 @@
 #interval-length, #interval-frequency, #rest-time {
     width: 200px;
 }
-#workout-list{
+#workout-list, #workout-reference{
     width: 100%;
     min-height: 500px;
+}
+#workout-reference{
+    padding-left: 10px !important;
+    display: none;
+}
+.workout-item {
+    padding: 5px 5px 5px 15px;
+}
+.workout-item.current{
+    font-weight: bold;
+    background-color: lightcyan;
 }
 #start-button, #stop-button, #pause-button{
     width: 100%;
