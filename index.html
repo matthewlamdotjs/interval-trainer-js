@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="style.css">
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <h1>Interval Workout Trainer</h1>
+        <div id="main-container">
+            <div id="workout-form">
+                <table>
+                    <tr>
+                        <td class="label">interval length (seconds)</td>
+                        <td><!-- https://stackoverflow.com/questions/32777184/html-input-for-positive-whole-numbers-only-type-number -->
+                            <input id="interval-length" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$"></td>
+                    </tr><tr>
+                        <td class="label"># of intervals per exercise</td>
+                        <td><input id="interval-frequency" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$"></td>
+                    </tr><tr>
+                        <td class="label">rest time between intervals (seconds)</td>
+                        <td><input id="rest-time" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$"></td>
+                    </tr><tr>
+                        <td class="label">workout plan<br>(one exercise per line)</td>
+                    </tr>
+                </table>
+                <textarea id="workout-list" placeholder="bicep curls @ 20lbs\nshoulder press @ 35lbs\nsquats @ 135lbs"></textarea>
+            </div>
+            <div id="workout">
+                <div id="activity-container">
+                    <div id="current-activity">click START to begin</div>
+                    <br>
+                    <div id="progress">
+                        <span id="time-number">0:00</span>
+                        <br>
+                        <div id="current-interval">interval: <span id="interval-number">N/A</span></div>
+                    </div>
+                </div>
+                <div id="button-container">
+                    <button id='start-button' onclick="startNewWorkout()">START</button>
+                    <button id='pause-button' onclick="pauseWorkout()">PAUSE</button>
+                    <button id='stop-button' onclick="cancelWorkout()">STOP</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                _toggleDisabled(document.getElementById('pause-button'));
+                _toggleDisabled(document.getElementById('stop-button'));
+                // following from
+                // https://stackoverflow.com/a/25261886
+                var textAreas = document.getElementsByTagName('textarea');
+
+                Array.prototype.forEach.call(textAreas, function(elem) {
+                    elem.placeholder = elem.placeholder.replace(/\\n/g, '\n');
+                });
+            });
+        </script>
+    </body>
+</html>
