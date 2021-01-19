@@ -35,6 +35,7 @@
 .workout-item.current{
     font-weight: bold;
     background-color: lightcyan;
+    border: 1px solid cornflowerblue;
 }
 #start-button, #stop-button, #pause-button{
     width: 100%;

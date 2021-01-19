@@ -183,7 +183,7 @@ const _setIntervalNumber = (interval) => {
     document.getElementById('interval-number').innerHTML = interval;
 }
 const _toggleDisabled = (element) => {
-    element.style = element.disabled ? 'opacity: 1;' : 'opacity: 0.5';
+    element.style = element.disabled ? 'opacity: 1;' : 'opacity: 0.2';
     element.disabled = !element.disabled;
 }
 const _toggleAll = () => {
