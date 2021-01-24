@@ -30,6 +30,7 @@
                         <td><input id="rest-time" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$"></td>
                     </tr><tr>
                         <td class="label">workout plan<br>(one exercise per line)</td>
+                        <td class="label">multiply workout x <input id="num-rounds" type="number" pattern=" 0+\.[0-9]*[1-9][0-9]*$" value="1"></td>
                     </tr>
                 </table>
                 <textarea id="workout-list" placeholder="bicep curls @ 20lbs\nshoulder press @ 35lbs\nsquats @ 135lbs"></textarea>
@@ -38,11 +39,12 @@
             <div id="workout">
                 <div id="activity-container">
                     <div id="current-activity">click START to begin</div>
-                    <br>
+                    <div id="title-spacer"><br><br></div>
                     <div id="progress">
                         <span id="time-number">0:00</span>
                         <br>
                         <div id="current-interval">interval: <span id="interval-number">N/A</span></div>
+                        <div id="current-round">round: <span id="round-number">N/A</span></div>
                     </div>
                 </div>
                 <div id="button-container">

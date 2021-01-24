@@ -21,6 +21,10 @@
 #interval-length, #interval-frequency, #rest-time {
     width: 200px;
 }
+#num-rounds{
+    width: 60px;
+    text-align: center;
+}
 #workout-list, #workout-reference{
     width: 100%;
     min-height: 500px;

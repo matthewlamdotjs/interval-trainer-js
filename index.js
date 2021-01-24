@@ -44,6 +44,7 @@ startNewWorkout = () => {
     isResting = false;
     _setTime(countdown);
     _setIntervalNumber('N/A');
+    _setRoundNumber('N/A');
 
     // gather variables
     let workoutList = document.getElementById('workout-list');
@@ -66,13 +67,17 @@ startNewWorkout = () => {
         alert('Rest time cannot be a negative number!');
         return 0;
     }
+    let numRounds = document.getElementById('num-rounds').value;
+    if(!numRounds || parseInt(numRounds) < 0){
+        alert('Number of rounds cannot be a negative number!');
+        return 0;
+    }
     
     // initialize data / make transformations
     intervalLength = parseInt(intervalLength);
     intervalFrequency = parseInt(intervalFrequency);
-    console.log(intervalFrequency);
     restTime = parseInt(restTime);
-    console.log([intervalLength,intervalFrequency,restTime]);
+    numRounds = parseInt(numRounds);
     workoutList = workoutList.value
         .replace(/\r\n/g, '\n')
         .replace(/\n\n+/g, '\n')
@@ -85,7 +90,7 @@ startNewWorkout = () => {
         alert('Please supply at least one exercise.');
         return 0;
     }
-    let currentExercise=0, currentIntervalNumber=1, currentSeconds=intervalLength, restCount=restTime;
+    let currentExercise=0, currentIntervalNumber=1, currentSeconds=intervalLength, restCount=restTime, currentRound=1;
 
     // indicate
     _displayPlay(exercises);
@@ -95,7 +100,9 @@ startNewWorkout = () => {
     // begin workout
     currentInterval = setInterval(() => {
         _chooseWorkoutItem(currentExercise);
+        _setRoundNumber(currentRound);
         if(isPaused){
+            _showTitleSpacers();
             _setActivity('PAUSED');
         }
         else if(countdown >= 0){
@@ -104,14 +111,16 @@ startNewWorkout = () => {
             countdown--;
         }
         else if(isResting){
+            _hideTitleSpacers();
             _setActivity('REST<br>'+exercises[currentExercise]+'<br>(next)');
+            _setIntervalNumber(currentIntervalNumber);
             _setTime(restCount);
             isResting = restCount <= 0 ? false : true;
-            restCount = restCount <= 0 ? restTime : restCount;
-            restCount--;
+            restCount = restCount <= 0 ? restTime : restCount - 1;
         }
         else {
             // display state
+            _showTitleSpacers();
             _setActivity(exercises[currentExercise]);
             _setIntervalNumber(currentIntervalNumber);
             _setTime(currentSeconds);
@@ -129,8 +138,18 @@ startNewWorkout = () => {
                 currentIntervalNumber = 1;
             };
 
-            // end workout
-            if(currentExercise == numExercises) cancelWorkout();
+            // end workout or repeat workout (multiply workout parameter)
+            if(currentExercise == numExercises){
+                switch (currentRound) {
+                    case numRounds:
+                        cancelWorkout();
+                        break;
+                    default:
+                        currentExercise = 0;
+                        break;
+                }
+                currentRound++;
+            }
 
             // cycle seconds
             currentSeconds--;
@@ -159,6 +178,7 @@ cancelWorkout = () => {
     _setActivity('Workout Complete!');
     _setTime(0);
     _setIntervalNumber('N/A');
+    _setRoundNumber('N/A');
     _displayEdit();
 }
 
@@ -181,6 +201,9 @@ const _setTime = (seconds) => {
 }
 const _setIntervalNumber = (interval) => {
     document.getElementById('interval-number').innerHTML = interval;
+}
+const _setRoundNumber = (round) => {
+    document.getElementById('round-number').innerHTML = round;
 }
 const _toggleDisabled = (element) => {
     element.style = element.disabled ? 'opacity: 1;' : 'opacity: 0.2';
@@ -209,4 +232,10 @@ const _chooseWorkoutItem = (index) =>{
         item.classList.remove('current');
     });
     document.getElementById('workout-item-'+index).classList.add('current');
+}
+const _showTitleSpacers = () => {
+    document.getElementById('title-spacer').style.display = 'block';
+}
+const _hideTitleSpacers = () => {
+    document.getElementById('title-spacer').style.display = 'none';
 }
