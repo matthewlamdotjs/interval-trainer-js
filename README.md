@@ -1,4 +1,7 @@
 # interval-trainer-js
+---
+permalink: /index.html
+---
 
 A Simple tool to time my interval workouts at home. Written in good old fashioned vanilla javascript.
 <br>
@@ -13,6 +16,8 @@ Thought I'd share on here incase someone else needs something similar.
 
 ## usage
 
-to use just open index.html in a web browser application (chrome preferred)
+to use locally just download this repo and open index.html in a web browser application (chrome preferred)
+<strong>OR</strong>
+use the github pages hosted <a href='https://matthewlamdotjs.github.io/interval-trainer-js/'>here</a>
 <br><br>
 <img src='interface-preview.png'>
